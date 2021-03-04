@@ -11,6 +11,10 @@ public class VikingController : MonoBehaviour
 	float move;
 	public Animator anim;
 
+	public GameObject Hammer;
+	public GameObject HammerSprite;
+
+
 	Rigidbody2D rb;
 
 
@@ -29,17 +33,12 @@ public class VikingController : MonoBehaviour
 	}
 
 
+
+
+
+
 	void FixedUpdate()
 	{
-
-		if (Input.GetKeyDown(KeyCode.B))
-		{
-
-			anim.SetBool("ThrowBool", true);
-
-		}
-
-	
 
 
 		if (grounded == true)
