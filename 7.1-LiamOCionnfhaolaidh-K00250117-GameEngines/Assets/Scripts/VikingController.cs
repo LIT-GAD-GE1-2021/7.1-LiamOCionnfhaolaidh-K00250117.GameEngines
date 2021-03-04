@@ -15,6 +15,8 @@ public class VikingController : MonoBehaviour
 	public GameObject HammerSprite;
 
 
+
+
 	Rigidbody2D rb;
 
 

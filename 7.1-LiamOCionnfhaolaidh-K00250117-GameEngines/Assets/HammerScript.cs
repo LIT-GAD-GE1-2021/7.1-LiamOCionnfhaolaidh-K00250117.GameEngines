@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class HammerScript : MonoBehaviour
 {
+
+    public Rigidbody2D theRB;
+    public float fireForce;
+
+    public void Fire()
+    {
+
+        theRB.AddForce(Vector2.up * fireForce, ForceMode2D.Impulse);
+
+    }
+
+
+
     // Start is called before the first frame update
     void Start()
     {
