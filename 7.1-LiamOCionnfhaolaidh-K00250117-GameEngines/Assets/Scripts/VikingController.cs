@@ -11,13 +11,15 @@ public class VikingController : MonoBehaviour
 	float move;
 	public Animator anim;
 
+
 	public GameObject Hammer;
-	public GameObject hammerSpawn;
+	public Transform hammerSpawn;
+	private bool throwCheck = true;
+
+	private float jumpCount = 2;
+
 
 	public GameObject HammerSprite;
-
-
-
 
 	Rigidbody2D rb;
 
@@ -37,11 +39,11 @@ public class VikingController : MonoBehaviour
 	}
 
 
-	private void Shoot()
+	private void Throw()
 	{
 	
 
-		if (Input.GetKeyDown(KeyCode.V) == true)
+		if (Input.GetKeyDown(KeyCode.V) == true && throwCheck == true && jumpCount > 0 )
 		{
 
 			GameObject theHammer;
@@ -50,7 +52,8 @@ public class VikingController : MonoBehaviour
 
 			HammerScript theHammerComponentScriptComponent = theHammer.GetComponent<HammerScript>();
 			theHammerComponentScriptComponent.Fire();
-			
+
+			throwCheck = false;
 
 		}
 
@@ -78,16 +81,27 @@ public class VikingController : MonoBehaviour
 
 		move = Input.GetAxis("Horizontal");
 
-
-
 		rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
+
+		if (throwCheck == false)
+        {
+
+			maxSpeed = 20f;
+
+        }
+
+		else if (throwCheck == true)
+        {
+			maxSpeed = 10f;
+
+        }
 
 
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.name == "Floor")
+		if (collision.gameObject.tag == "Ground")
 		{
 			grounded = true;
 
@@ -97,12 +111,21 @@ public class VikingController : MonoBehaviour
 
 		}
 
+		if (collision.gameObject.tag == "Hammer")
+		{
+
+			throwCheck = true;
+
+			Destroy(collision.gameObject);
+
+		}
+
 
 	}
 
 	private void OnCollisionExit2D(Collision2D collision)
 	{
-		if (collision.gameObject.name == "Floor")
+		if (collision.gameObject.tag == "Ground")
 		{
 			grounded = false;
 
@@ -116,6 +139,9 @@ public class VikingController : MonoBehaviour
 
 	void Update()
 	{
+
+		Throw();
+
 
 		if ((Input.GetKeyDown(KeyCode.Space) == true) && grounded == true)
 		{
