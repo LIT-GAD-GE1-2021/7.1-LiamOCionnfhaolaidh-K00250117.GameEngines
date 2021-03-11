@@ -12,6 +12,8 @@ public class VikingController : MonoBehaviour
 	public Animator anim;
 
 	public GameObject Hammer;
+	public GameObject hammerSpawn;
+
 	public GameObject HammerSprite;
 
 
@@ -35,7 +37,24 @@ public class VikingController : MonoBehaviour
 	}
 
 
+	private void Shoot()
+	{
+	
 
+		if (Input.GetKeyDown(KeyCode.V) == true)
+		{
+
+			GameObject theHammer;
+			theHammer = Instantiate(Hammer, hammerSpawn.position, Quaternion.identity);
+
+
+			HammerScript theHammerComponentScriptComponent = theHammer.GetComponent<HammerScript>();
+			theHammerComponentScriptComponent.Fire();
+			
+
+		}
+
+	}
 
 
 
