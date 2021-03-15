@@ -11,7 +11,7 @@ public class HammerScript : MonoBehaviour
     public void Fire()
     {
 
-        theRB.AddForce(Vector2.up * fireForce, ForceMode2D.Impulse);
+        theRB.AddForce(Vector2.right * fireForce, ForceMode2D.Impulse);
 
     }
 

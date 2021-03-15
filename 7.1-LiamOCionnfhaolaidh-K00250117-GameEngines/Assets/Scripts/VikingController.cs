@@ -11,25 +11,23 @@ public class VikingController : MonoBehaviour
 	float move;
 	public Animator anim;
 
+	public GameObject HammerSprite;
+
+	Rigidbody2D rb;
+
+	public float jumpforce = 700f;
+	bool grounded = true;
+	public Transform groundcheck;
+	public LayerMask whatIsGround;
+
+
 
 	public GameObject Hammer;
 	public Transform hammerSpawn;
 	private bool throwCheck = true;
 
-	private float jumpCount = 2;
-
-
-	public GameObject HammerSprite;
-
-	Rigidbody2D rb;
-
-
-	public float jumpforce = 700f;
-	bool grounded = true;
-	public Transform groundcheck;
-
-	public LayerMask whatIsGround;
-
+	//public float jumpCount = 2;
+	[Range(0, 2)] public float jumpCount;
 
 	void Awake()
 	{
@@ -43,7 +41,7 @@ public class VikingController : MonoBehaviour
 	{
 	
 
-		if (Input.GetKeyDown(KeyCode.V) == true && throwCheck == true && jumpCount > 0 )
+		if (Input.GetKeyDown(KeyCode.V) == true && throwCheck == true)
 		{
 
 			GameObject theHammer;
@@ -109,6 +107,8 @@ public class VikingController : MonoBehaviour
 
 			anim.SetBool("GroundBool", true);
 
+			jumpCount += 2;
+
 		}
 
 		if (collision.gameObject.tag == "Hammer")
@@ -121,6 +121,8 @@ public class VikingController : MonoBehaviour
 		}
 
 
+
+
 	}
 
 	private void OnCollisionExit2D(Collision2D collision)
@@ -128,8 +130,6 @@ public class VikingController : MonoBehaviour
 		if (collision.gameObject.tag == "Ground")
 		{
 			grounded = false;
-
-
 
 	        anim.SetBool("GroundBool", false);
 
@@ -143,24 +143,28 @@ public class VikingController : MonoBehaviour
 		Throw();
 
 
-		if ((Input.GetKeyDown(KeyCode.Space) == true) && grounded == true)
+		if ((Input.GetKeyDown(KeyCode.Space) == true) && (jumpCount > 0))
 		{
-		
+
+			jumpCount -= 1;
 
 			rb.AddForce(new Vector2(0, jumpforce));
 
 			grounded = false;
+		    if (throwCheck == false)
+            {
+			jumpCount = 1;
 
+            }
 
 
 		}
 
+
+
 		if (grounded == false)
 		{
 		     anim.SetFloat("JumpFloat", rb.velocity.y);
-			 
-			
-
 
 		}
 	}
