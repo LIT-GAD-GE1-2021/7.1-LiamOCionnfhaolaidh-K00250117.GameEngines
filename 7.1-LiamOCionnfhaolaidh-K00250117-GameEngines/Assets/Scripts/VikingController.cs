@@ -1,17 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class VikingController : MonoBehaviour
 {
-	public float maxSpeed = 10f;
-	bool facingRight = true;
-	bool Dodge;
-	bool attack;
-	float move;
-	public Animator anim;
+	
+	
+	public GameObject Hammer;
+	public SpriteRenderer hammerSprite;
+	public Transform hammerSpawn;
 
-	public GameObject HammerSprite;
+	private bool throwCheck = true;
+	[Range(0, 2)] public float jumpCount;
+
 
 	Rigidbody2D rb;
 
@@ -20,14 +22,18 @@ public class VikingController : MonoBehaviour
 	public Transform groundcheck;
 	public LayerMask whatIsGround;
 
+	public float maxSpeed = 10f;
+	bool facingRight = true;
+	bool Dodge;
+	bool attack;
+	float move;
+	public Animator anim;
 
 
-	public GameObject Hammer;
-	public Transform hammerSpawn;
-	private bool throwCheck = true;
 
-	//public float jumpCount = 2;
-	[Range(0, 2)] public float jumpCount;
+
+
+
 
 	void Awake()
 	{
@@ -53,14 +59,44 @@ public class VikingController : MonoBehaviour
 
 			throwCheck = false;
 
+			//hammerSprite.GetComponent <SpriteRenderer>().color = new Color(0, 0, 0);
+
+		    hammerSprite.GetComponent<SpriteRenderer>();
+			hammerSprite.enabled = false;
+
+
 		}
 
 	}
 
+	private void JumpCountControl()
+    {
+		if (jumpCount > 2)
+        {
+			jumpCount = 2;
 
+        }
+
+		if (throwCheck == false)
+		{
+
+			if (jumpCount > 1)
+			{
+				jumpCount = 1;
+
+			}
+
+
+
+		}
+
+
+
+	}
 
 	void FixedUpdate()
 	{
+
 
 
 		if (grounded == true)
@@ -85,6 +121,8 @@ public class VikingController : MonoBehaviour
         {
 
 			maxSpeed = 20f;
+
+
 
         }
 
@@ -118,6 +156,9 @@ public class VikingController : MonoBehaviour
 
 			Destroy(collision.gameObject);
 
+			hammerSprite.GetComponent<SpriteRenderer>();
+			hammerSprite.enabled = true;
+
 		}
 
 
@@ -141,7 +182,7 @@ public class VikingController : MonoBehaviour
 	{
 
 		Throw();
-
+		JumpCountControl();
 
 		if ((Input.GetKeyDown(KeyCode.Space) == true) && (jumpCount > 0))
 		{
@@ -151,11 +192,15 @@ public class VikingController : MonoBehaviour
 			rb.AddForce(new Vector2(0, jumpforce));
 
 			grounded = false;
+
 		    if (throwCheck == false)
             {
-			jumpCount = 1;
 
-            }
+			   jumpCount = 1;
+				jumpCount -= 1;
+
+
+			}
 
 
 		}
