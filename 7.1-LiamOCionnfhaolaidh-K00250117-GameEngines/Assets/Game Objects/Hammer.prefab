@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2333140774768172263}
   - component: {fileID: 5796355423838264381}
   m_Layer: 0
-  m_Name: HammerObject 1
+  m_Name: Hammer
   m_TagString: Hammer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,6 +119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theRB: {fileID: 2333140774768172259}
   fireForce: 10
+  hammerForm: {fileID: 2333140774768172256}
+  directionCheck: 0
 --- !u!61 &5796355423838264381
 BoxCollider2D:
   m_ObjectHideFlags: 0

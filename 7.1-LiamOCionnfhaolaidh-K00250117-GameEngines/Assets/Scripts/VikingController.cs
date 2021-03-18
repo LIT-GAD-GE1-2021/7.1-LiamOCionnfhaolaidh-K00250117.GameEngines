@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class VikingController : MonoBehaviour
@@ -23,25 +24,45 @@ public class VikingController : MonoBehaviour
 	public LayerMask whatIsGround;
 
 	public float maxSpeed = 10f;
-	bool facingRight = true;
+
 	bool Dodge;
 	bool attack;
 	float move;
 	public Animator anim;
 
 
+	public Transform playerTransaform;
+	private Vector3 scalePlayer;
+	public bool facingRight = true;
+	public bool checkCheck = true;
+
+	public void CheckX()
+    {
+	
+		if (scalePlayer.x == 0.4f)
+
+        {
+
+			facingRight = true;
+
+			checkCheck = true;
+
+
+        }
+
+		if (scalePlayer.x == -0.4f)
+
+		{
+
+			facingRight = false;
+			checkCheck = false;
+
+
+		}
 
 
 
-
-
-	void Awake()
-	{
-
-		anim = GetComponent<Animator>();
-		rb = GetComponent<Rigidbody2D>();
 	}
-
 
 	private void Throw()
 	{
@@ -59,7 +80,7 @@ public class VikingController : MonoBehaviour
 
 			throwCheck = false;
 
-			//hammerSprite.GetComponent <SpriteRenderer>().color = new Color(0, 0, 0);
+
 
 		    hammerSprite.GetComponent<SpriteRenderer>();
 			hammerSprite.enabled = false;
@@ -96,7 +117,26 @@ public class VikingController : MonoBehaviour
 
 	void FixedUpdate()
 	{
+		if (scalePlayer.x == 0.4f)
 
+		{
+
+			facingRight = true;
+
+			checkCheck = true;
+
+
+		}
+
+		if (scalePlayer.x == -0.4f)
+
+		{
+
+			facingRight = false;
+			checkCheck = false;
+
+
+		}
 
 
 		if (grounded == true)
@@ -225,6 +265,13 @@ public class VikingController : MonoBehaviour
 
 		transform.localScale = theScale;
 
+	}
+
+	void Awake()
+	{
+
+		anim = GetComponent<Animator>();
+		rb = GetComponent<Rigidbody2D>();
 	}
 
 
