@@ -20,39 +20,41 @@ public class HammerScript : MonoBehaviour
 
 
 
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            directionCheck = true;
-
-
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            directionCheck = false;
-
-
-        }
-
         if (directionCheck == true)
         {
-            theRB.AddForce(Vector2.left * fireForce, ForceMode2D.Impulse);
+
+
+            theRB.AddForce(Vector2.left * (fireForce * -1), ForceMode2D.Impulse);
+
+            Debug.Log("left");
         }
 
         if (directionCheck == false)
         {
              theRB.AddForce(Vector2.right * fireForce, ForceMode2D.Impulse);
-            
+
+            Debug.Log("right");
+
         }
 
     }
     void Update()
     {
 
-      //  Fire();
 
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            directionCheck = true;
+
+            Debug.Log("pressed left");
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            directionCheck = false;
+            Debug.Log("pressed right");
+
+        }
 
     }
 }

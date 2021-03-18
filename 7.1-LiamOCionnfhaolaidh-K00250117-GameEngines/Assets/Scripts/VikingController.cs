@@ -34,35 +34,9 @@ public class VikingController : MonoBehaviour
 	public Transform playerTransaform;
 	private Vector3 scalePlayer;
 	public bool facingRight = true;
-	public bool checkCheck = true;
-
-	public void CheckX()
-    {
-	
-		if (scalePlayer.x == 0.4f)
-
-        {
-
-			facingRight = true;
-
-			checkCheck = true;
+	public bool checkCheck;
 
 
-        }
-
-		if (scalePlayer.x == -0.4f)
-
-		{
-
-			facingRight = false;
-			checkCheck = false;
-
-
-		}
-
-
-
-	}
 
 	private void Throw()
 	{
@@ -73,7 +47,7 @@ public class VikingController : MonoBehaviour
 
 			GameObject theHammer;
 			theHammer = Instantiate(Hammer, hammerSpawn.position, Quaternion.identity);
-
+			theHammer.transform.right = transform.right.normalized;
 
 			HammerScript theHammerComponentScriptComponent = theHammer.GetComponent<HammerScript>();
 			theHammerComponentScriptComponent.Fire();
@@ -85,6 +59,8 @@ public class VikingController : MonoBehaviour
 		    hammerSprite.GetComponent<SpriteRenderer>();
 			hammerSprite.enabled = false;
 
+
+			Debug.Log("FIRE");
 
 		}
 
@@ -117,7 +93,7 @@ public class VikingController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		if (scalePlayer.x == 0.4f)
+		if (scalePlayer.x == 0.4)
 
 		{
 
@@ -128,7 +104,7 @@ public class VikingController : MonoBehaviour
 
 		}
 
-		if (scalePlayer.x == -0.4f)
+		if (scalePlayer.x == -0.4)
 
 		{
 
@@ -220,6 +196,26 @@ public class VikingController : MonoBehaviour
 
 	void Update()
 	{
+		if (scalePlayer.x == 0.4)
+
+		{
+
+			facingRight = true;
+
+			checkCheck = true;
+
+
+		}
+
+		if (scalePlayer.x == -0.4)
+
+		{
+
+			facingRight = false;
+			checkCheck = false;
+
+
+		}
 
 		Throw();
 		JumpCountControl();
