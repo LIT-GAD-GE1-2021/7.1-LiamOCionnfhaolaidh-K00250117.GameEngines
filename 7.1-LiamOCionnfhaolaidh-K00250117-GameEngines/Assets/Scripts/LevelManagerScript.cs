@@ -19,7 +19,7 @@ public class LevelManagerScript : MonoBehaviour
 
     public Rigidbody2D theRB;
     public float fireForce;
-    public float minusFireForce = -5;
+
 
     public bool directionCheck;
 
@@ -44,50 +44,13 @@ public class LevelManagerScript : MonoBehaviour
 
     }
 
-    public void FireScript()
-    {
-
-        if (directionCheck == true)
-        {
-
-
-            theRB.AddForce(Vector2.right * minusFireForce, ForceMode2D.Impulse);
-
-           // Debug.Log("left");
-        }
-
-        if (directionCheck == false)
-        {
-            theRB.AddForce(Vector2.right * fireForce, ForceMode2D.Impulse);
-
-           // Debug.Log("right");
-
-        }
-
-    }
-
 
     // Update is called once per frame
     void Update()
     {
         coinText.text = coinCounter.ToString() + "KR";
 
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            directionCheck = true;
 
-            Debug.Log("pressed left");
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            directionCheck = false;
-            Debug.Log("pressed right");
-
-        }
-
-
-        FireScript();
 
     }
 

@@ -35,6 +35,7 @@ public class VikingController : MonoBehaviour
 	private Vector3 scalePlayer;
 	public bool facingRight = true;
 
+	public bool check;
 
 	public float healthNumber = 3;
 
@@ -46,23 +47,28 @@ public class VikingController : MonoBehaviour
 		{
 
 			GameObject theHammer;
-			theHammer = Instantiate(Hammer, hammerSpawn.position, Quaternion.identity);
+			theHammer = Instantiate(Hammer, hammerSpawn.position, hammerSpawn.rotation);
 			theHammer.transform.right = transform.right.normalized;
 
-			HammerScript theHammerComponentScriptComponent = theHammer.GetComponent<HammerScript>();
-			theHammerComponentScriptComponent.Fire();
-
 			throwCheck = false;
-
-
 
 		    hammerSprite.GetComponent<SpriteRenderer>();
 			hammerSprite.enabled = false;
 
 
-			Debug.Log("FIRE");
-
 		}
+
+		if (Input.GetKeyDown(KeyCode.V) == true && throwCheck == false)
+        {
+			check = true;
+		}
+
+
+		if (Input.GetKeyUp(KeyCode.V) == true)
+		{
+			check = false;
+		}
+
 
 	}
 
@@ -93,27 +99,6 @@ public class VikingController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		if (scalePlayer.x == 0.4)
-
-		{
-
-			facingRight = true;
-
-
-
-
-		}
-
-		if (scalePlayer.x == -0.4)
-
-		{
-
-			facingRight = false;
-
-
-
-		}
-
 
 		if (grounded == true)
         {
@@ -189,12 +174,18 @@ public class VikingController : MonoBehaviour
 		if (collision.gameObject.tag == "Hammer")
 		{
 
-			throwCheck = true;
+			if (check == true)
+			{
+			    throwCheck = true;
 
-			Destroy(collision.gameObject);
+			    Destroy(collision.gameObject);
 
-			hammerSprite.GetComponent<SpriteRenderer>();
-			hammerSprite.enabled = true;
+			    hammerSprite.GetComponent<SpriteRenderer>();
+			    hammerSprite.enabled = true;
+
+
+
+			}
 
 		}
 
@@ -270,11 +261,9 @@ public class VikingController : MonoBehaviour
 
 		facingRight = !facingRight;
 
-		Vector3 theScale = transform.localScale;
 
-		theScale.x *= -1;
 
-		transform.localScale = theScale;
+		transform.Rotate(0f, 180f, 0f);
 
 	}
 
