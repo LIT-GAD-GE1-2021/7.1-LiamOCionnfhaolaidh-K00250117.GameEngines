@@ -34,9 +34,9 @@ public class VikingController : MonoBehaviour
 	public Transform playerTransaform;
 	private Vector3 scalePlayer;
 	public bool facingRight = true;
-	public bool checkCheck;
 
 
+	public float healthNumber = 3;
 
 	private void Throw()
 	{
@@ -99,7 +99,7 @@ public class VikingController : MonoBehaviour
 
 			facingRight = true;
 
-			checkCheck = true;
+
 
 
 		}
@@ -109,7 +109,7 @@ public class VikingController : MonoBehaviour
 		{
 
 			facingRight = false;
-			checkCheck = false;
+
 
 
 		}
@@ -151,6 +151,27 @@ public class VikingController : MonoBehaviour
 
 	}
 
+	public void CheckHealth()
+    {
+		if (healthNumber == 2)
+        {
+			
+			LevelManagerScript.instance.TakeDamage1();
+
+
+		}
+
+		if (healthNumber == 1)
+		{
+
+			LevelManagerScript.instance.TakeMoreDamage();
+
+
+		}
+
+
+	}
+
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.tag == "Ground")
@@ -177,8 +198,21 @@ public class VikingController : MonoBehaviour
 
 		}
 
+		if (collision.gameObject.tag == "Coin")
+		{
+			LevelManagerScript.instance.KronerCollect();
+
+			Destroy(collision.gameObject);
+
+		}
+
+		if (collision.gameObject.tag == "Enemy")
+		{
+			healthNumber -= 1;
 
 
+
+		}
 
 	}
 
@@ -196,27 +230,8 @@ public class VikingController : MonoBehaviour
 
 	void Update()
 	{
-		if (scalePlayer.x == 0.4)
 
-		{
-
-			facingRight = true;
-
-			checkCheck = true;
-
-
-		}
-
-		if (scalePlayer.x == -0.4)
-
-		{
-
-			facingRight = false;
-			checkCheck = false;
-
-
-		}
-
+		CheckHealth();
 		Throw();
 		JumpCountControl();
 
