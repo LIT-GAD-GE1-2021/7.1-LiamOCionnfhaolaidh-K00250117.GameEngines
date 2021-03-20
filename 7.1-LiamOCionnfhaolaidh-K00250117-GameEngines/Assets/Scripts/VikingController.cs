@@ -10,6 +10,8 @@ public class VikingController : MonoBehaviour
 	
 	public GameObject Hammer;
 	public SpriteRenderer hammerSprite;
+	public SpriteRenderer playerSprite;
+
 	public Transform hammerSpawn;
 
 	private bool throwCheck = true;
@@ -201,11 +203,24 @@ public class VikingController : MonoBehaviour
 		{
 			healthNumber -= 1;
 
-
+			StartCoroutine("ColorChange");
 
 		}
 
 	}
+
+	IEnumerator ColorChange()
+	{
+
+		playerSprite.material.SetColor("_Color", Color.red);
+
+		yield return new WaitForSeconds(0.3f);
+
+		playerSprite.material.SetColor("_Color", Color.white);
+
+
+	}
+
 
 	private void OnCollisionExit2D(Collision2D collision)
 	{
