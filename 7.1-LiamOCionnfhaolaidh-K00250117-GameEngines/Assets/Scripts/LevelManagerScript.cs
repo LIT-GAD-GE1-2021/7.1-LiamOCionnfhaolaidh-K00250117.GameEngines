@@ -10,7 +10,7 @@ public class LevelManagerScript : MonoBehaviour
 
     public static LevelManagerScript instance;
 
-    private float coinCounter = 0;
+    public float coinCounter = 0;
     public Text coinText;
     public Image firstHeart;
     public Image secondHeart;
@@ -23,7 +23,19 @@ public class LevelManagerScript : MonoBehaviour
 
     public bool directionCheck;
 
+    public void SpendMoney()
+    {
 
+        if ((coinCounter >= 3))
+        {
+
+            coinCounter =- 3;
+
+            Debug.Log("Spent Money");
+
+        }
+
+    }
 
     public void KronerCollect()
     {
@@ -41,6 +53,13 @@ public class LevelManagerScript : MonoBehaviour
     public void TakeMoreDamage()
     {
         secondHeart.enabled = false;
+
+    }
+
+    public void TakeEvenMoreDamage()
+    {
+
+        firstHeart.enabled = false;
 
     }
 

@@ -41,6 +41,7 @@ public class VikingController : MonoBehaviour
 
 	public float healthNumber = 3;
 
+
 	private void Throw()
 	{
 	
@@ -59,6 +60,8 @@ public class VikingController : MonoBehaviour
 
 
 		}
+
+
 
 		if (Input.GetKeyDown(KeyCode.V) == true && throwCheck == false)
         {
@@ -156,6 +159,13 @@ public class VikingController : MonoBehaviour
 
 		}
 
+		if (healthNumber == 0)
+        {
+
+			LevelManagerScript.instance.TakeEvenMoreDamage();
+
+		}
+
 
 	}
 
@@ -207,6 +217,17 @@ public class VikingController : MonoBehaviour
 
 		}
 
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+    {
+		if (collision.gameObject.tag == "Coin")
+		{
+			LevelManagerScript.instance.KronerCollect();
+
+			Destroy(collision.gameObject);
+
+		}
 	}
 
 	IEnumerator ColorChange()

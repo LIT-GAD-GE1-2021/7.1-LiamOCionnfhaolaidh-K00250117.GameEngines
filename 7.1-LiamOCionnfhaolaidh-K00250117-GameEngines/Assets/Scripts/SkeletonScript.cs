@@ -26,7 +26,7 @@ public class SkeletonScript : MonoBehaviour
     {
         skeleAnim.SetBool("AttackBool", false);
         speed = 2;
-        Debug.Log("Attack Has Finished");
+       // Debug.Log("Attack Has Finished");
 
         attackCheck = false;
 
@@ -46,7 +46,7 @@ public class SkeletonScript : MonoBehaviour
         {
             speed = 0;
             skeleAnim.SetBool("AttackBool", true);
-            Debug.Log("Hit Something");
+           // Debug.Log("Hit Something");
 
             //GetComponent<BoxCollider2D>() = new Vector2(10f, 0.5f);
 
