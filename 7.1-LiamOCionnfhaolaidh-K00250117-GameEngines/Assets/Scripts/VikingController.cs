@@ -228,6 +228,8 @@ public class VikingController : MonoBehaviour
 			Destroy(collision.gameObject);
 
 		}
+
+
 	}
 
 	IEnumerator ColorChange()
@@ -254,6 +256,10 @@ public class VikingController : MonoBehaviour
 			anim.SetFloat("JumpFloat", rb.velocity.y);
 		}
 	}
+
+
+
+
 
 	void Update()
 	{

@@ -10,17 +10,17 @@ public class SkeletonScript : MonoBehaviour
     public Rigidbody2D enemyRB;
     public float speed;
     public Animator skeleAnim;
+    public SpriteRenderer enemySprite;
 
-    public bool attackCheck;
 
     public Transform detectRay;
     public float detectDistance = 4.0f;
-
     public bool drawRay = false;
 
     public float enemyHealth = 3;
+    public bool attackCheck;
+    
 
-    public SpriteRenderer enemySprite;
 
     public void AttackOver()
     {

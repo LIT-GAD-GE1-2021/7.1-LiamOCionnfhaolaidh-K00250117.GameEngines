@@ -21,19 +21,34 @@ public class LevelManagerScript : MonoBehaviour
     public float fireForce;
 
 
-    public bool directionCheck;
+    public bool moneyCheck;
 
     public void SpendMoney()
     {
 
-        if ((coinCounter >= 3))
-        {
 
-            coinCounter =- 3;
+          //  Debug.Log("Pressed Down"); 
+            
+            if (coinCounter >= 3)
+            {
 
-            Debug.Log("Spent Money");
+                 coinCounter -= 3;
 
-        }
+                 Debug.Log("Spent Money");
+
+                 moneyCheck = true;
+
+            }
+
+            else if(coinCounter < 3)
+            {
+
+              moneyCheck = false;
+
+            }
+
+       
+
 
     }
 
@@ -43,6 +58,9 @@ public class LevelManagerScript : MonoBehaviour
         coinCounter += 1;
 
     }
+
+
+
 
     public void TakeDamage1()
     {
@@ -64,10 +82,18 @@ public class LevelManagerScript : MonoBehaviour
     }
 
 
-    // Update is called once per frame
+
     void Update()
     {
         coinText.text = coinCounter.ToString() + "KR";
+
+        if (coinCounter < 0)
+        {
+
+            coinCounter = 0;
+
+        }
+
 
 
 
@@ -75,7 +101,7 @@ public class LevelManagerScript : MonoBehaviour
 
     private void Awake()
     {
-        // set the instance property/variable to this object
+
         instance = this;
     }
 
