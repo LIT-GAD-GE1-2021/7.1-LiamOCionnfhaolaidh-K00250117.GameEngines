@@ -10,7 +10,7 @@ public class VendingScript : MonoBehaviour
     public SpriteRenderer textSprite;
 
     public bool buttonCheck;
-
+    public bool findTheHammer;
 
 
     private void Awake()
@@ -24,11 +24,19 @@ public class VendingScript : MonoBehaviour
     void Update()
     {
 
-            if (Input.GetKeyDown(KeyCode.DownArrow) == true && buttonCheck == true)
+        if (GameObject.Find("Hammer(Clone)") != null)
+        {
+            findTheHammer = true;
+           // Debug.Log("Found the hammer");
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) == true && buttonCheck == true && findTheHammer == true)
             {
                 LevelManagerScript.instance.SpendMoney();
-             
-                if (LevelManagerScript.instance.moneyCheck == true)
+
+                Destroy(GameObject.FindWithTag("Hammer"));
+
+            if (LevelManagerScript.instance.moneyCheck == true)
                 {
 
                   GameObject theHammer;
@@ -38,9 +46,6 @@ public class VendingScript : MonoBehaviour
                   
 
                 }
-              
-
-
             }
 
 

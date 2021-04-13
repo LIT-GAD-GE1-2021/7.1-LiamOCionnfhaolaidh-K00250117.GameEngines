@@ -27,8 +27,7 @@ public class LevelManagerScript : MonoBehaviour
     {
 
 
-          //  Debug.Log("Pressed Down"); 
-            
+         
             if (coinCounter >= 3)
             {
 
@@ -93,7 +92,6 @@ public class LevelManagerScript : MonoBehaviour
             coinCounter = 0;
 
         }
-
 
 
 
