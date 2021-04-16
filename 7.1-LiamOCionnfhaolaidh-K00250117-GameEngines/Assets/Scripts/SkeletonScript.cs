@@ -20,18 +20,6 @@ public class SkeletonScript : MonoBehaviour
     public float enemyHealth = 3;
     public bool attackCheck;
     
-
-
-    public void AttackOver()
-    {
-        skeleAnim.SetBool("AttackBool", false);
-        speed = 2;
-       // Debug.Log("Attack Has Finished");
-
-        attackCheck = false;
-
-    }
-
     public void DetectPlayer()
     {
 
@@ -46,13 +34,24 @@ public class SkeletonScript : MonoBehaviour
         {
             speed = 0;
             skeleAnim.SetBool("AttackBool", true);
-           // Debug.Log("Hit Something");
 
-            //GetComponent<BoxCollider2D>() = new Vector2(10f, 0.5f);
-
+            attackCheck = true;
 
         }
 
+        
+
+
+    }
+
+    public void AttackOver()
+    {
+        
+        
+        skeleAnim.SetBool("AttackBool", false);
+        speed = 2;
+
+        attackCheck = false;
 
     }
 
@@ -85,6 +84,12 @@ public class SkeletonScript : MonoBehaviour
         if (collision.gameObject.tag == "Hammer")
         {
 
+            skeleAnim.SetBool("AttackBool", false);
+
+            speed = 2;
+            // Debug.Log("Attack Has Finished");
+
+            attackCheck = false;
 
             //do nothing
 
@@ -131,7 +136,14 @@ public class SkeletonScript : MonoBehaviour
 
         }
 
+        if (attackCheck == false)
+        {
 
+            skeleAnim.SetBool("AttackBool", false);
+            speed = 2;
+
+
+        }
 
     }
 }

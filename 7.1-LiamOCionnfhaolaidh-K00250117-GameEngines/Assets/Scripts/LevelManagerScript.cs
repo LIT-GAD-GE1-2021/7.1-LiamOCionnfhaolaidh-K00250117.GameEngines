@@ -12,6 +12,15 @@ public class LevelManagerScript : MonoBehaviour
 
     public float coinCounter = 0;
     public Text coinText;
+
+    public float valkyrieCount = 1;
+    public float vbuckCost = 4;
+    public AudioSource crowNoise;
+
+    public Text gameOverText;
+    public bool deathCHeck;
+    public bool bringThePlayerBack;
+
     public Image firstHeart;
     public Image secondHeart;
     public Image thirdHeart;
@@ -23,17 +32,16 @@ public class LevelManagerScript : MonoBehaviour
 
     public bool moneyCheck;
 
+
+
     public void SpendMoney()
-    {
-
-
-         
+    {         
             if (coinCounter >= 3)
             {
 
                  coinCounter -= 3;
 
-                 Debug.Log("Spent Money");
+               //  Debug.Log("Spent Money");
 
                  moneyCheck = true;
 
@@ -45,10 +53,6 @@ public class LevelManagerScript : MonoBehaviour
               moneyCheck = false;
 
             }
-
-       
-
-
     }
 
     public void KronerCollect()
@@ -58,7 +62,12 @@ public class LevelManagerScript : MonoBehaviour
 
     }
 
+    public void VBuckCollect()
+    {
 
+        valkyrieCount += 1;
+        crowNoise.Play();
+    }
 
 
     public void TakeDamage1()
@@ -78,13 +87,32 @@ public class LevelManagerScript : MonoBehaviour
 
         firstHeart.enabled = false;
 
+        gameOverText.text = "Pay " + vbuckCost.ToString() + " Valkyrie Bucks to save yourself? Bucks:" + valkyrieCount.ToString() + "(Press Y or N)";
+        deathCHeck = true;
+        gameOverText.enabled = true;
+
     }
 
+   
+    public void BackToLife()
+    {
+        thirdHeart.enabled = true;
 
+        secondHeart.enabled = true;
+
+        firstHeart.enabled = true;
+
+        gameOverText.enabled = false;
+
+        deathCHeck = false;
+
+
+    }
 
     void Update()
     {
         coinText.text = coinCounter.ToString() + "KR";
+
 
         if (coinCounter < 0)
         {
@@ -93,9 +121,43 @@ public class LevelManagerScript : MonoBehaviour
 
         }
 
+        if (Input.GetKeyDown(KeyCode.Y) == true && deathCHeck == true)
+        {
+           if (valkyrieCount >= vbuckCost)
+            {
+               BackToLife();
+
+               deathCHeck = false;
+               vbuckCost += 2;
+               bringThePlayerBack = true;
+               valkyrieCount -= vbuckCost;
+
+
+            }
+
+        }
+
+
+        if (bringThePlayerBack == true)
+        {
+
+            gameOverText.enabled = false;
+
+            gameOverText.gameObject.SetActive(false);
+
+        }
+
+    }
+
+    void Start()
+    {
+        gameOverText.enabled = false;
 
 
     }
+
+
+
 
     private void Awake()
     {

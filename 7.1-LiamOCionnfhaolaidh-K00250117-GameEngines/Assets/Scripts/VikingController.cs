@@ -14,7 +14,7 @@ public class VikingController : MonoBehaviour
 
 	public Transform hammerSpawn;
 
-	private bool throwCheck = true;
+	private bool haveTheHammer = true;
 	[Range(0, 2)] public float jumpCount;
 
 
@@ -37,23 +37,23 @@ public class VikingController : MonoBehaviour
 	private Vector3 scalePlayer;
 	public bool facingRight = true;
 
-	public bool check;
-
-	public float healthNumber = 3;
+	public bool touchingTheHammer;
+	private bool playerIsDead = false;
+	[Range(0, 3)] public float healthNumber;
 
 
 	private void Throw()
 	{
 	
 
-		if (Input.GetKeyDown(KeyCode.V) == true && throwCheck == true)
+		if (Input.GetKeyDown(KeyCode.V) == true && haveTheHammer == true)
 		{
 
 			GameObject theHammer;
 			theHammer = Instantiate(Hammer, hammerSpawn.position, hammerSpawn.rotation);
 			theHammer.transform.right = transform.right.normalized;
 
-			throwCheck = false;
+			haveTheHammer = false;
 
 		    hammerSprite.GetComponent<SpriteRenderer>();
 			hammerSprite.enabled = false;
@@ -63,15 +63,15 @@ public class VikingController : MonoBehaviour
 
 
 
-		if (Input.GetKeyDown(KeyCode.V) == true && throwCheck == false)
+		if (Input.GetKeyDown(KeyCode.V) == true && haveTheHammer == false)
         {
-			check = true;
+			touchingTheHammer = true;
 		}
 
 
 		if (Input.GetKeyUp(KeyCode.V) == true)
 		{
-			check = false;
+			touchingTheHammer = false;
 		}
 
 
@@ -85,7 +85,7 @@ public class VikingController : MonoBehaviour
 
         }
 
-		if (throwCheck == false)
+		if (haveTheHammer == false)
 		{
 
 			if (jumpCount > 1)
@@ -112,27 +112,30 @@ public class VikingController : MonoBehaviour
 
         }
       
-
-
-		if (move > 0 && !facingRight)
-			Flip();
-		else if (move < 0 && facingRight)
-			Flip();
-
-		move = Input.GetAxis("Horizontal");
-
-		rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
-
-		if (throwCheck == false)
+      if (playerIsDead == false)
         {
+		  if (move > 0 && !facingRight)
+			Flip();
+		  else if (move < 0 && facingRight)
+			Flip();
 
-			maxSpeed = 20f;
+		  move = Input.GetAxis("Horizontal");
+
+		  rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
 
 
 
         }
 
-		else if (throwCheck == true)
+
+		
+		
+		if (haveTheHammer == false)
+        {
+			maxSpeed = 20f;
+        }
+
+		else if (haveTheHammer == true)
         {
 			maxSpeed = 10f;
 
@@ -143,6 +146,14 @@ public class VikingController : MonoBehaviour
 
 	public void CheckHealth()
     {
+
+		if (healthNumber >= 3)
+        {
+
+			LevelManagerScript.instance.BackToLife();
+
+		}
+
 		if (healthNumber == 2)
         {
 			
@@ -159,13 +170,40 @@ public class VikingController : MonoBehaviour
 
 		}
 
-		if (healthNumber == 0)
+		if (healthNumber <= 0)
         {
 
 			LevelManagerScript.instance.TakeEvenMoreDamage();
+			playerIsDead = true;
+
+		}
+		
+
+	}
+
+
+
+
+	public void ReturnFromDeath()
+	{
+
+		if (LevelManagerScript.instance.bringThePlayerBack == true)
+
+		{
+		  //  healthNumber = 3;
+			playerIsDead = false;
+			anim.SetBool("PlayerHasDied", false);
+			hammerSprite.GetComponent<SpriteRenderer>();
+			hammerSprite.enabled = true;
 
 		}
 
+		if (LevelManagerScript.instance.bringThePlayerBack == true && Input.GetKeyDown(KeyCode.Y))
+		{
+			healthNumber = 3;
+
+
+		}
 
 	}
 
@@ -186,9 +224,9 @@ public class VikingController : MonoBehaviour
 		if (collision.gameObject.tag == "Hammer")
 		{
 
-			if (check == true)
+			if (touchingTheHammer == true)
 			{
-			    throwCheck = true;
+			    haveTheHammer = true;
 
 			    Destroy(collision.gameObject);
 
@@ -201,19 +239,21 @@ public class VikingController : MonoBehaviour
 
 		}
 
-		if (collision.gameObject.tag == "Coin")
-		{
-			LevelManagerScript.instance.KronerCollect();
 
-			Destroy(collision.gameObject);
-
-		}
 
 		if (collision.gameObject.tag == "Enemy")
 		{
 			healthNumber -= 1;
 
 			StartCoroutine("ColorChange");
+
+		}
+
+		if (collision.gameObject.tag == "ValkyrieBuck")
+		{
+			
+			LevelManagerScript.instance.VBuckCollect();
+			Destroy(collision.gameObject);
 
 		}
 
@@ -267,29 +307,45 @@ public class VikingController : MonoBehaviour
 		CheckHealth();
 		Throw();
 		JumpCountControl();
-
-		if ((Input.GetKeyDown(KeyCode.Space) == true) && (jumpCount > 0))
-		{
-
-			jumpCount -= 1;
-
-			rb.AddForce(new Vector2(0, jumpforce));
-
-			grounded = false;
-
-		    if (throwCheck == false)
-            {
-
-			   jumpCount = 1;
-				jumpCount -= 1;
+		ReturnFromDeath();
 
 
-			}
+		if ((Input.GetKeyDown(KeyCode.Space) == true) && (jumpCount > 0) && playerIsDead == false)
+		  {
 
+			  jumpCount -= 1;
+
+			  rb.AddForce(new Vector2(0, jumpforce));
+
+			  grounded = false;
+
+		      if (haveTheHammer == false)
+                 {
+
+			           jumpCount = 1;
+				       jumpCount -= 1;
+
+
+			     }
+
+
+           }
+		
+		if (healthNumber < 0)
+        {
+
+			healthNumber = 0;
+
+        }
+
+		if (playerIsDead == true)
+        {
+
+			anim.SetBool("PlayerHasDied", true);
+			hammerSprite.GetComponent<SpriteRenderer>();
+			hammerSprite.enabled = false;
 
 		}
-
-
 
 		if (grounded == false)
 		{
@@ -302,8 +358,6 @@ public class VikingController : MonoBehaviour
 	{
 
 		facingRight = !facingRight;
-
-
 
 		transform.Rotate(0f, 180f, 0f);
 
