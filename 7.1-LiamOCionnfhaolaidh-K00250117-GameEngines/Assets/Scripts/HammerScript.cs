@@ -5,16 +5,10 @@ using UnityEngine;
 
 public class HammerScript : MonoBehaviour
 {
-
     public Rigidbody2D theRB;
-    public float fireForce;
-
     public float speed = 10f;
 
-    public Transform scaleTransform;
-
-    public bool directionCheck;
-
+    public AudioSource enemyHit;
 
     void Start()
     {
@@ -25,5 +19,13 @@ public class HammerScript : MonoBehaviour
 
     }
 
- 
-}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            enemyHit.Play();
+
+        }
+
+    }
+ }

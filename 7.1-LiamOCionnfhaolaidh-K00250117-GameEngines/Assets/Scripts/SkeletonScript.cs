@@ -19,16 +19,49 @@ public class SkeletonScript : MonoBehaviour
 
     public float enemyHealth = 3;
     public bool attackCheck;
-    
+
+    private bool walkLeft = true;
+
+    public void WalkLeftOrRight()
+    {
+
+        if (walkLeft == true)
+        {
+
+            walkLeft = false;
+            Debug.Log("walk left is false");
+
+            enemyRB.velocity = Vector2.right * speed;
+            Vector3 theScale = transform.localScale;
+            theScale.x = -0.5026802f;
+            transform.localScale = theScale;
+
+        }
+        else if (walkLeft == false)
+        {
+
+            walkLeft = true;
+            Debug.Log("walk left is true");
+
+
+            enemyRB.velocity = Vector2.left * speed;
+            Vector3 theScale = transform.localScale;
+            theScale.x = 0.5026802f;
+            transform.localScale = theScale;
+        }
+
+    }
+
     public void DetectPlayer()
     {
+        int layerMask = 1 << 8;
 
         Vector2 rayDirection = Vector2.left * transform.localScale.x;
 
         Physics2D.queriesStartInColliders = false;
 
         RaycastHit2D rayHit;
-        rayHit = Physics2D.Raycast(detectRay.position, rayDirection, detectDistance);
+        rayHit = Physics2D.Raycast(detectRay.position, rayDirection, detectDistance, layerMask);
 
         if (rayHit.collider != null)
         {
@@ -39,10 +72,8 @@ public class SkeletonScript : MonoBehaviour
 
         }
 
-        
-
-
     }
+
 
     public void AttackOver()
     {
@@ -77,6 +108,7 @@ public class SkeletonScript : MonoBehaviour
             StartCoroutine("ColorChange");
 
         }
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -87,18 +119,11 @@ public class SkeletonScript : MonoBehaviour
             skeleAnim.SetBool("AttackBool", false);
 
             speed = 2;
-            // Debug.Log("Attack Has Finished");
 
             attackCheck = false;
 
-            //do nothing
-
         }
     }
-
-
-
-
 
     public void onDrawGizmos()
     {
@@ -123,11 +148,25 @@ public class SkeletonScript : MonoBehaviour
         onDrawGizmos();
         DetectPlayer();
 
+        if (walkLeft == true)
+        {
 
-        enemyRB.velocity = Vector2.left * speed;
-        Vector3 theScale = transform.localScale;
-        theScale.x = 0.5026802f;
-        transform.localScale = theScale;
+            enemyRB.velocity = Vector2.right * speed;
+            Vector3 theScale = transform.localScale;
+            theScale.x = -0.5026802f;
+            transform.localScale = theScale;
+
+        }
+        else if (walkLeft == false)
+        {
+
+            enemyRB.velocity = Vector2.left * speed;
+            Vector3 theScale = transform.localScale;
+            theScale.x = 0.5026802f;
+            transform.localScale = theScale;
+        }
+
+
 
         if (enemyHealth == 0)
         {

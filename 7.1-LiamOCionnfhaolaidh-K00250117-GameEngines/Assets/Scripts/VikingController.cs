@@ -20,22 +20,22 @@ public class VikingController : MonoBehaviour
 
 	Rigidbody2D rb;
 
-	public float jumpforce = 700f;
+	private float jumpforce = 500f;
 	bool grounded = true;
 	public Transform groundcheck;
-	public LayerMask whatIsGround;
+	private LayerMask whatIsGround;
 
 	public float maxSpeed = 10f;
 
-	bool Dodge;
-	bool attack;
 	float move;
 	public Animator anim;
 
+	public Transform playerTransform;
+	public Transform respawnPoint;
 
-	public Transform playerTransaform;
+
 	private Vector3 scalePlayer;
-	public bool facingRight = true;
+	private bool facingRight = true;
 
 	public bool touchingTheHammer;
 	private bool playerIsDead = false;
@@ -166,13 +166,10 @@ public class VikingController : MonoBehaviour
 		{
 
 			LevelManagerScript.instance.TakeMoreDamage();
-
-
 		}
 
 		if (healthNumber <= 0)
         {
-
 			LevelManagerScript.instance.TakeEvenMoreDamage();
 			playerIsDead = true;
 
@@ -180,9 +177,6 @@ public class VikingController : MonoBehaviour
 		
 
 	}
-
-
-
 
 	public void ReturnFromDeath()
 	{
@@ -204,6 +198,30 @@ public class VikingController : MonoBehaviour
 
 
 		}
+
+	}
+
+	public void RespawnFromStart()
+    {
+
+		if (Input.GetKeyDown(KeyCode.N) && (LevelManagerScript.instance.bringThePlayerBack == true))
+		{
+
+			playerTransform.position = respawnPoint.position;
+
+			playerIsDead = false;
+			anim.SetBool("PlayerHasDied", false);
+			hammerSprite.GetComponent<SpriteRenderer>();
+			hammerSprite.enabled = true;
+		}
+
+		if (LevelManagerScript.instance.bringThePlayerBack == true && Input.GetKeyDown(KeyCode.N))
+		{
+			healthNumber = 3;
+
+
+		}
+
 
 	}
 
@@ -268,7 +286,13 @@ public class VikingController : MonoBehaviour
 			Destroy(collision.gameObject);
 
 		}
+		if (collision.gameObject.tag == "MovingSword")
+		{
+			healthNumber -= 1;
 
+			StartCoroutine("ColorChange");
+
+		}
 
 	}
 
@@ -308,6 +332,7 @@ public class VikingController : MonoBehaviour
 		Throw();
 		JumpCountControl();
 		ReturnFromDeath();
+		RespawnFromStart();
 
 
 		if ((Input.GetKeyDown(KeyCode.Space) == true) && (jumpCount > 0) && playerIsDead == false)

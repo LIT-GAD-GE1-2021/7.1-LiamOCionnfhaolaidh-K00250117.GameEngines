@@ -11,24 +11,25 @@ public class LevelManagerScript : MonoBehaviour
     public static LevelManagerScript instance;
 
     public float coinCounter = 0;
+
     public Text coinText;
-
-    public float valkyrieCount = 1;
-    public float vbuckCost = 4;
-    public AudioSource crowNoise;
-
     public Text gameOverText;
-    public bool deathCHeck;
-    public bool bringThePlayerBack;
-
     public Image firstHeart;
     public Image secondHeart;
     public Image thirdHeart;
 
+    public float valkyrieCount = 10;
+    public float vbuckCost = 4;
+
+    public AudioSource crowNoise;
+    public AudioSource kronerNoise;
+    public AudioSource vendingSound;
+
+    public bool deathCheck;
+    public bool bringThePlayerBack;
 
     public Rigidbody2D theRB;
     public float fireForce;
-
 
     public bool moneyCheck;
 
@@ -38,12 +39,11 @@ public class LevelManagerScript : MonoBehaviour
     {         
             if (coinCounter >= 3)
             {
-
-                 coinCounter -= 3;
-
                //  Debug.Log("Spent Money");
-
+                 coinCounter -= 3;
                  moneyCheck = true;
+                 vendingSound.Play();
+                 
 
             }
 
@@ -59,6 +59,7 @@ public class LevelManagerScript : MonoBehaviour
     {
 
         coinCounter += 1;
+        kronerNoise.Play();
 
     }
 
@@ -67,6 +68,7 @@ public class LevelManagerScript : MonoBehaviour
 
         valkyrieCount += 1;
         crowNoise.Play();
+
     }
 
 
@@ -88,8 +90,10 @@ public class LevelManagerScript : MonoBehaviour
         firstHeart.enabled = false;
 
         gameOverText.text = "Pay " + vbuckCost.ToString() + " Valkyrie Bucks to save yourself? Bucks:" + valkyrieCount.ToString() + "(Press Y or N)";
-        deathCHeck = true;
+        deathCheck = true;
+
         gameOverText.enabled = true;
+
 
     }
 
@@ -104,10 +108,21 @@ public class LevelManagerScript : MonoBehaviour
 
         gameOverText.enabled = false;
 
-        deathCHeck = false;
+        deathCheck = false;
 
 
     }
+
+    IEnumerator PlayerBackFalse()
+    {
+
+        yield return new WaitForSeconds(0.1f);
+        bringThePlayerBack = false;
+
+
+
+    }
+
 
     void Update()
     {
@@ -121,21 +136,32 @@ public class LevelManagerScript : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Y) == true && deathCHeck == true)
+        if (Input.GetKeyDown(KeyCode.Y) == true && deathCheck == true)
         {
            if (valkyrieCount >= vbuckCost)
             {
                BackToLife();
 
-               deathCHeck = false;
-               vbuckCost += 2;
+               deathCheck = false;
                bringThePlayerBack = true;
-               valkyrieCount -= vbuckCost;
 
+               valkyrieCount -= vbuckCost;
+               vbuckCost += 1;
 
             }
 
         }
+
+        if (Input.GetKeyDown(KeyCode.N) == true && deathCheck == true)
+        {
+                BackToLife();
+
+                deathCheck = false;
+                bringThePlayerBack = true;
+
+        }
+
+
 
 
         if (bringThePlayerBack == true)
@@ -143,22 +169,21 @@ public class LevelManagerScript : MonoBehaviour
 
             gameOverText.enabled = false;
 
-            gameOverText.gameObject.SetActive(false);
+            StartCoroutine("PlayerBackFalse");
 
         }
 
+
+
     }
 
+   
+    
     void Start()
     {
         gameOverText.enabled = false;
 
-
     }
-
-
-
-
     private void Awake()
     {
 
