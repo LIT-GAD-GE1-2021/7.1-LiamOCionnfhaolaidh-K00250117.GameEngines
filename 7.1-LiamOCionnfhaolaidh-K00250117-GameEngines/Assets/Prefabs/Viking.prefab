@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a9f15ffc9d6f9b0448fc3a17b5dc9f34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -202,15 +202,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hammer: {fileID: 2333140774768172252, guid: f2855c55e26d89c428a0e74e8e14d0b9, type: 3}
   hammerSprite: {fileID: 2729078311469554203}
+  playerSprite: {fileID: 0}
   hammerSpawn: {fileID: 2729078311672161880}
   jumpCount: 2
-  jumpforce: 500
   groundcheck: {fileID: 2729078310039213560}
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 1
   maxSpeed: 10
   anim: {fileID: 2729078310039213561}
+  playerTransform: {fileID: 0}
+  respawnPoint: {fileID: 0}
+  touchingTheHammer: 0
+  healthNumber: 0
 --- !u!1 &2729078310076090774
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +747,7 @@ SpriteRenderer:
   m_Size: {x: 7.03, y: 7.09}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2729078311672161895

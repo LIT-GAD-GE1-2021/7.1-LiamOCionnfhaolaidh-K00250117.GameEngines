@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f610f43636bd6940a8b24aa97f26826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeRemaining: 2
   eyeRB: {fileID: 4075242028208349740}
   speed: 4
 --- !u!50 &4075242028208349740
