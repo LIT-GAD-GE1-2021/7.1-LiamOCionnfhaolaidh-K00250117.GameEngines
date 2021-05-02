@@ -12,10 +12,8 @@ public class HammerScript : MonoBehaviour
 
     void Start()
     {
-        //nithing
 
         theRB.velocity = transform.right * speed;
-
 
     }
 

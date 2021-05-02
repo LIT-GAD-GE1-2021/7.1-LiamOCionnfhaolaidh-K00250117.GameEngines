@@ -17,7 +17,6 @@ public class VikingController : MonoBehaviour
 	private bool haveTheHammer = true;
 	[Range(0, 2)] public float jumpCount;
 
-
 	Rigidbody2D rb;
 
 	private float jumpforce = 500f;
@@ -102,47 +101,7 @@ public class VikingController : MonoBehaviour
 
 	}
 
-	void FixedUpdate()
-	{
 
-		if (grounded == true)
-        {
-	      anim.SetFloat("RunTrigger", rb.velocity.y);
-          anim.SetFloat("RunTrigger", Mathf.Abs(move));
-
-        }
-      
-      if (playerIsDead == false)
-        {
-		  if (move > 0 && !facingRight)
-			Flip();
-		  else if (move < 0 && facingRight)
-			Flip();
-
-		  move = Input.GetAxis("Horizontal");
-
-		  rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
-
-
-
-        }
-
-
-		
-		
-		if (haveTheHammer == false)
-        {
-			maxSpeed = 20f;
-        }
-
-		else if (haveTheHammer == true)
-        {
-			maxSpeed = 10f;
-
-        }
-
-
-	}
 
 	public void CheckHealth()
     {
@@ -311,7 +270,6 @@ public class VikingController : MonoBehaviour
 			Destroy(collision.gameObject);
 
 			particles.Play();
-			//StartCoroutine("StopParticles");
 		}
 
 		if (collision.gameObject.tag == "MovingSword")
@@ -330,7 +288,6 @@ public class VikingController : MonoBehaviour
 		{
 
 			particles.Stop();
-			//StartCoroutine("StopParticles");
 		}
 
 
@@ -361,41 +318,9 @@ public class VikingController : MonoBehaviour
 			anim.SetFloat("JumpFloat", rb.velocity.y);
 		}
 	}
-
-
-
-
-
-	void Update()
+	void FixedUpdate()
 	{
 
-		CheckHealth();
-		Throw();
-		JumpCountControl();
-		ReturnFromDeath();
-		RespawnFromStart();
-
-
-		if ((Input.GetKeyDown(KeyCode.Space) == true) && (jumpCount > 0) && playerIsDead == false)
-		  {
-
-			  jumpCount -= 1;
-
-			  rb.AddForce(new Vector2(0, jumpforce));
-
-			  grounded = false;
-
-		      if (haveTheHammer == false)
-                 {
-
-			           jumpCount = 1;
-				       jumpCount -= 1;
-
-
-			     }
-
-
-           }
 		
 		if (healthNumber < 0)
         {
@@ -418,6 +343,69 @@ public class VikingController : MonoBehaviour
 		     anim.SetFloat("JumpFloat", rb.velocity.y);
 
 		}
+
+		if (grounded == true)
+        {
+	      anim.SetFloat("RunTrigger", rb.velocity.y);
+          anim.SetFloat("RunTrigger", Mathf.Abs(move));
+
+        }
+      
+      if (playerIsDead == false)
+        {
+		    if (move > 0 && !facingRight)
+			Flip();
+		    else if (move < 0 && facingRight)
+			Flip();
+
+		     move = Input.GetAxis("Horizontal");
+
+		     rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
+
+        }
+		
+		if (haveTheHammer == false)
+        {
+			maxSpeed = 20f;
+        }
+
+		else if (haveTheHammer == true)
+        {
+			maxSpeed = 10f;
+
+        }
+
+
+	}
+
+	void Update()
+	{
+
+		CheckHealth();
+		Throw();
+		JumpCountControl();
+		ReturnFromDeath();
+		RespawnFromStart();
+
+		if ((Input.GetKeyDown(KeyCode.Space) == true) && (jumpCount > 0) && playerIsDead == false)
+		  {
+
+			  jumpCount -= 1;
+
+			  rb.AddForce(new Vector2(0, jumpforce));
+
+			  grounded = false;
+
+		      if (haveTheHammer == false)
+                 {
+
+			           jumpCount = 1;
+				       jumpCount -= 1;
+
+			     }
+
+
+           }
 	}
 
 	void Flip()

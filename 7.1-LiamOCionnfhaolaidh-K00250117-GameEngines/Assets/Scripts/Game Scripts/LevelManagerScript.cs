@@ -31,12 +31,7 @@ public class LevelManagerScript : MonoBehaviour
     public bool deathCheck;
     public bool bringThePlayerBack;
 
-    public Rigidbody2D theRB;
-    public float fireForce;
-
     public bool moneyCheck;
-
-   // public GameObject Switch;
 
     public void SpendMoney()
     {         
@@ -44,7 +39,6 @@ public class LevelManagerScript : MonoBehaviour
         
         if (coinCounter >= 3)
             {
-               //  Debug.Log("Spent Money");
                  coinCounter -= 3;
                  moneyCheck = true;
                  vendingSound.Play();
@@ -130,9 +124,6 @@ public class LevelManagerScript : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
         bringThePlayerBack = false;
-
-
-
     }
 
 

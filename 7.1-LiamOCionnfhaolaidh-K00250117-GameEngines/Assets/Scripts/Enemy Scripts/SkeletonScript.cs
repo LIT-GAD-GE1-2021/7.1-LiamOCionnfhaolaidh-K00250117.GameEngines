@@ -31,11 +31,6 @@ public class SkeletonScript : MonoBehaviour
             walkLeft = false;
             Debug.Log("walk left is false");
 
-            enemyRB.velocity = Vector2.right * speed;
-            Vector3 theScale = transform.localScale;
-            theScale.x = -0.5026802f;
-            transform.localScale = theScale;
-
         }
         else if (walkLeft == false)
         {
@@ -44,10 +39,6 @@ public class SkeletonScript : MonoBehaviour
             Debug.Log("walk left is true");
 
 
-            enemyRB.velocity = Vector2.left * speed;
-            Vector3 theScale = transform.localScale;
-            theScale.x = 0.5026802f;
-            transform.localScale = theScale;
         }
 
     }
